@@ -37,31 +37,36 @@ public class Game {
 
                 if (currentPosition == 100) {
                     hasWinnerBeenFound = true;
-                    System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " ----> " + currentPosition);
+                    System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition()
+                            + " ----> " + currentPosition);
                     System.out.println("Winner found ---> " + currentPlayer.getName());
                     break;
                 }
 
                 if (currentPosition > 100) {
-                    System.out.println(currentPlayer.getName() + " is at position " + currentPlayer.getCurrentPosition() + " and spun a " + spinVal + "...needs to wait for another turn as count was over 100");
+                    System.out.println(currentPlayer.getName() + " is at position " + currentPlayer.getCurrentPosition()
+                            + " and spun a " + spinVal + "...needs to wait for another turn as count was over 100");
                     continue;
                 }
 
                 Cell c = board.getCells().stream().filter(cell -> cell.getValue() == currentPosition).findFirst().get();
 
                 if (c instanceof Chute) {
-                    System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " -----> " + currentPosition + " ---Chute----> " + ((Chute) c).getEndPosition());
+                    System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " -----> "
+                            + currentPosition + " ---Chute----> " + ((Chute) c).getEndPosition());
                     currentPlayer.setCurrentPosition(((Chute) c).getEndPosition());
                     continue;
                 }
 
                 if (c instanceof Ladder) {
-                    System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " -----> " + currentPosition + " ---Ladder ----> " + ((Ladder) c).getEndPosition());
+                    System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " -----> "
+                            + currentPosition + " ---Ladder ----> " + ((Ladder) c).getEndPosition());
                     currentPlayer.setCurrentPosition(((Ladder) c).getEndPosition());
                     continue;
                 }
 
-                System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " ----> " + currentPosition);
+                System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " ----> "
+                        + currentPosition);
                 currentPlayer.setCurrentPosition(c);
 
             }
@@ -70,11 +75,18 @@ public class Game {
 
     }
 
+    /**
+     *
+     * Cells have their value and they will be referenced through their value and not through their index in
+     * the list cells. Cells can also be chutes or ladders.
+     *
+     * @return
+     */
     private Board makeBoard() {
 
         List<Cell> cells = new ArrayList<>();
 
-       //Add the chutes
+       //Create chutes
         List<Chute> chutes = new ArrayList<>();
         chutes.add(new Chute(new Cell(19), new Cell(9)));
         chutes.add(new Chute(new Cell(24), new Cell(11)));
@@ -83,7 +95,7 @@ public class Game {
         chutes.add(new Chute(new Cell(77), new Cell(68)));
         chutes.add(new Chute(new Cell(96), new Cell(81)));
 
-        //Add the ladders
+        //Create ladders
         List<Ladder> ladders = new ArrayList<>();
         ladders.add(new Ladder(new Cell(7), new Cell(21)));
         ladders.add(new Ladder(new Cell(27), new Cell(46)));
@@ -93,25 +105,35 @@ public class Game {
         ladders.add(new Ladder(new Cell(79), new Cell(94)));
 
 
+        boolean ladderFound;
+        boolean chuteFound;
+
         for (int i = 1; i <= 100; i++) {
-            
+            ladderFound = false;
+            chuteFound = false;
+            //Adding Chutes to the board
             for(Chute ch : chutes) {
                 if(ch.getStartPosition().getValue() == i) {
                     cells.add(ch);
                     cells.add(ch.getEndPosition());
-                    break;
-                }
-            }
-            
-            for(Ladder ld: ladders) {
-                if(ld.getStartPosition().getValue() == i) {
-                    cells.add(ld);
-                    cells.add(ld.getEndPosition());
+                    chuteFound = true;
                     break;
                 }
             }
 
-            cells.add(new Cell(i));
+            //Add ladders to the board
+            for(Ladder ld: ladders) {
+                if(ld.getStartPosition().getValue() == i) {
+                    cells.add(ld);
+                    cells.add(ld.getEndPosition());
+                    ladderFound = true;
+                    break;
+                }
+            }
+
+            //Just add the normal cells when the cell was not a chute or a ladder.
+            if(!ladderFound && !chuteFound)
+                cells.add(new Cell(i));
         }
 
         Board board = new Board(cells);
@@ -122,17 +144,11 @@ public class Game {
     public static void main(String args[]) {
 
         //Create players
-        Player player1 = new Player("Eric");
-        Player player2 = new Player("Hanna");
-        Player player3 = new Player("Jim");
-        Player player4 = new Player("Amy");
-
-
         List<Player> players = new ArrayList<>();
-        players.add((player1));
-        players.add(player2);
-        players.add(player3);
-        players.add(player4);
+        players.add(new Player("Eric"));
+        players.add(new Player("Hanna"));
+        players.add(new Player("Jim"));
+        players.add(new Player("Amy"));
 
         Game game = new Game(players);
 
