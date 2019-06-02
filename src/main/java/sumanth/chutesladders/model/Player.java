@@ -4,11 +4,11 @@ public class Player {
 
     private String name;
 
-    private int currentPosition;
+    private Cell currentPosition;
 
     public Player(String name) {
         this.name = name;
-        this.currentPosition = -1;
+        this.currentPosition = new Cell(0);
     }
 
     public String getName() {
@@ -19,11 +19,12 @@ public class Player {
         this.name = name;
     }
 
-    public int getCurrentPosition() {
+    public Cell getCurrentPosition() {
         return currentPosition;
     }
 
-    public void setCurrentPosition(int currentPosition) {
+    public void setCurrentPosition(Cell currentPosition) {
         this.currentPosition = currentPosition;
     }
+
 }

@@ -8,30 +8,36 @@ package sumanth.chutesladders.model;
  * start and end position values.
  *
  */
-public class Chute {
+public class Chute extends Cell {
 
-    private int startPosition;
+    private Cell startPosition;
 
-    private int endPosition;
+    private Cell endPosition;
 
-    public Chute(int startPosition, int endPosition) {
+    public Chute(Cell startPosition, Cell endPosition) {
+        super(startPosition.getValue());
         this.startPosition = startPosition;
         this.endPosition = endPosition;
     }
 
-    public int getStartPosition() {
+    public Cell getStartPosition() {
         return startPosition;
     }
 
-    public void setStartPosition(int startPosition) {
+    public void setStartPosition(Cell startPosition) {
         this.startPosition = startPosition;
     }
 
-    public int getEndPosition() {
+    public Cell getEndPosition() {
         return endPosition;
     }
 
-    public void setEndPosition(int endPosition) {
+    public void setEndPosition(Cell endPosition) {
         this.endPosition = endPosition;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(startPosition.getValue());
     }
 }

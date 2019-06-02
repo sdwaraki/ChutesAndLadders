@@ -2,9 +2,8 @@
 
 Chutes and Ladders (Also Snake and Ladders in some places) is a board game that is usually played by 4 players who use a 
 cubical dice/spinner. The board is made of 10x10 grid with values on each cell from 1-100.
-Some cells are special. 
 
-A cell can be one of the three types:
+There are 3 types of cells:
  
  - Chute : When a player ends up on this cell, he is to be taken to a cell of a lower value.
  - Ladder : When a player ends up on this cell, he is to be taken to a cell of higher value.

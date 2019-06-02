@@ -6,30 +6,36 @@ package sumanth.chutesladders.model;
  * If ladders were taken as a part of the input, we need some validation to check
  *  start and end position values.
  */
-public class Ladder {
+public class Ladder extends Cell {
 
-    private int startPosition;
+    private Cell startPosition;
 
-    private int endPosition;
+    private Cell endPosition;
 
-    public Ladder(int startPosition, int endPosition) {
+    public Ladder(Cell startPosition, Cell endPosition) {
+        super(startPosition.getValue());
         this.startPosition = startPosition;
         this.endPosition = endPosition;
     }
 
-    public int getStartPosition() {
+    public Cell getStartPosition() {
         return startPosition;
     }
 
-    public void setStartPosition(int startPosition) {
+    public void setStartPosition(Cell startPosition) {
         this.startPosition = startPosition;
     }
 
-    public int getEndPosition() {
+    public Cell getEndPosition() {
         return endPosition;
     }
 
-    public void setEndPosition(int endPosition) {
+    public void setEndPosition(Cell endPosition) {
         this.endPosition = endPosition;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(startPosition.getValue());
     }
 }
