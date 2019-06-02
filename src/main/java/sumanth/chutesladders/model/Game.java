@@ -5,6 +5,7 @@ import sumanth.chutesladders.utils.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 /**
  *
@@ -44,35 +45,40 @@ public class Game {
                 Cell c = board.getCells().stream().filter(cell -> cell.getValue() == nextPosition).findFirst().get();
 
                 if (c instanceof Chute) {
-                    System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " -----> "
-                            + nextPosition + " ---Chute----> " + ((Chute) c).getEndPosition());
+                    System.out.println(currentPlayer.getName() + ": " + currentPlayer.getCurrentPosition() + " -----> "
+                            + nextPosition + " --- Chute----> " + ((Chute) c).getEndPosition());
                     currentPlayer.setCurrentPosition(((Chute) c).getEndPosition());
+                    hasWinnerBeenFound = hasPlayerWon(currentPlayer.getCurrentPosition().getValue(), currentPlayer);
+                    if(hasWinnerBeenFound) break;
                     continue;
                 }
 
                 if (c instanceof Ladder) {
-                    System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " -----> "
-                            + nextPosition + " ---Ladder ----> " + ((Ladder) c).getEndPosition());
+                    System.out.println(currentPlayer.getName() + ": " + currentPlayer.getCurrentPosition() + " -----> "
+                            + nextPosition + " --- Ladder ----> " + ((Ladder) c).getEndPosition());
                     currentPlayer.setCurrentPosition(((Ladder) c).getEndPosition());
+                    hasWinnerBeenFound = hasPlayerWon(currentPlayer.getCurrentPosition().getValue(), currentPlayer);
+                    if(hasWinnerBeenFound)  break;
                     continue;
                 }
 
-                if (nextPosition == 100) {
-                    hasWinnerBeenFound = true;
-                    System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition()
-                            + " ----> " + nextPosition);
-                    System.out.println("Winner found ---> " + currentPlayer.getName());
-                    break;
-                }
-
-                System.out.println(currentPlayer.getName() + ":" + currentPlayer.getCurrentPosition() + " ----> "
+                System.out.println(currentPlayer.getName() + ": " + currentPlayer.getCurrentPosition() + " ----> "
                         + nextPosition);
                 currentPlayer.setCurrentPosition(c);
-
+                hasWinnerBeenFound = hasPlayerWon(currentPlayer.getCurrentPosition().getValue(), currentPlayer);
+                if(hasWinnerBeenFound) break;
             }
 
         }
 
+    }
+
+    private boolean hasPlayerWon(int position, Player currentPlayer) {
+        if (position == 100) {
+            System.out.println("Winner found ---> " + currentPlayer.getName());
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -150,12 +156,21 @@ public class Game {
 
     public static void main(String args[]) {
 
-        //Create players
+        Scanner sc = new Scanner(System.in);
+        int numPlayers = 0;
+        while(true) {
+            System.out.println("How many players are playing this game? (Min 2, Max 4)");
+            numPlayers = sc.nextInt();
+
+            if(numPlayers >=2 && numPlayers <=4)
+                break;
+        }
+
+        String [] names = {"Eric", "Paul", "Amy", "Hannah"};
         List<Player> players = new ArrayList<>();
-        players.add(new Player("Eric"));
-        players.add(new Player("Hanna"));
-        players.add(new Player("Jim"));
-        players.add(new Player("Amy"));
+        for(int i = 0; i<numPlayers; i++) {
+            players.add(new Player(names[i]));
+        }
 
         Game game = new Game(players);
 
